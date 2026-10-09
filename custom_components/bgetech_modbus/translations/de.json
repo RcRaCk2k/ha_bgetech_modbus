@@ -1,0 +1,278 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Modbus-TCP-Gateway",
+        "description": "Verbindung zum RS485-/Modbus-TCP-Gateway. Zähler werden anschließend hinzugefügt.",
+        "data": {
+          "name": "Name",
+          "host": "IP-Adresse / Hostname",
+          "port": "Port",
+          "scan_interval": "Abfrageintervall",
+          "timeout": "Timeout",
+          "retries": "Wiederholungen",
+          "max_registers": "Maximale Register pro Anfrage"
+        },
+        "data_description": {
+          "host": "IP-Adresse oder Hostname des Modbus-TCP-Gateways.",
+          "port": "Modbus-TCP-Port, meist 502.",
+          "scan_interval": "Standard-Abfrageintervall für alle Zähler dieses Gateways (Sekunden). Einzelne Zähler können es überschreiben.",
+          "timeout": "Wartezeit auf die Antwort eines Zählers.",
+          "retries": "Wiederholungen nach Timeout oder Verbindungsfehler.",
+          "max_registers": "0 = automatisch (125, Protokollmaximum). Nur verringern, wenn das Gateway große Anfragen ablehnt."
+        }
+      },
+      "reconfigure": {
+        "title": "Gateway ändern",
+        "data": {
+          "name": "Name",
+          "host": "IP-Adresse / Hostname",
+          "port": "Port"
+        },
+        "data_description": {
+          "host": "IP-Adresse oder Hostname des Modbus-TCP-Gateways.",
+          "port": "Modbus-TCP-Port, meist 502."
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Keine Verbindung zum Gateway."
+    },
+    "abort": {
+      "already_configured": "Dieses Gateway ist bereits eingerichtet.",
+      "reconfigure_successful": "Gateway geändert."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Abfrage und Kommunikation",
+        "data": {
+          "scan_interval": "Abfrageintervall",
+          "timeout": "Timeout",
+          "retries": "Wiederholungen",
+          "max_registers": "Maximale Register pro Anfrage"
+        },
+        "data_description": {
+          "scan_interval": "Standard-Abfrageintervall für alle Zähler dieses Gateways (Sekunden). Einzelne Zähler können es überschreiben.",
+          "timeout": "Wartezeit auf die Antwort eines Zählers.",
+          "retries": "Wiederholungen nach Timeout oder Verbindungsfehler.",
+          "max_registers": "0 = automatisch (125, Protokollmaximum). Nur verringern, wenn das Gateway große Anfragen ablehnt."
+        }
+      }
+    }
+  },
+  "config_subentries": {
+    "meter": {
+      "entry_type": "Zähler",
+      "initiate_flow": {
+        "user": "Zähler hinzufügen"
+      },
+      "step": {
+        "user": {
+          "title": "Zähler hinzufügen",
+          "data": {
+            "slave_id": "Slave-ID",
+            "name": "Name",
+            "model": "Modell",
+            "enabled": "Aktiviert",
+            "verify": "Verbindung prüfen",
+            "scan_interval_instant": "Abfrageintervall Momentanwerte",
+            "scan_interval_energy": "Abfrageintervall Energiezähler"
+          },
+          "data_description": {
+            "slave_id": "Modbus-Adresse des Zählers (1–247).",
+            "name": "Name des Geräts in Home Assistant.",
+            "model": "Die automatische Erkennung unterscheidet DRT428M-2 und DRT428M-3.",
+            "enabled": "Deaktivierte Zähler werden nicht abgefragt.",
+            "verify": "Den Zähler vor dem Speichern einmal auslesen.",
+            "scan_interval_instant": "Spannung, Strom, Leistung … Leer = Intervall des Gateways.",
+            "scan_interval_energy": "Energiezähler. Leer = Intervall des Gateways."
+          }
+        },
+        "reconfigure": {
+          "title": "Zähler bearbeiten",
+          "description": "Slave-ID {slave_id}. Um die Slave-ID zu ändern, den Zähler entfernen und neu hinzufügen.",
+          "data": {
+            "name": "Name",
+            "model": "Modell",
+            "enabled": "Aktiviert",
+            "scan_interval_instant": "Abfrageintervall Momentanwerte",
+            "scan_interval_energy": "Abfrageintervall Energiezähler"
+          },
+          "data_description": {
+            "name": "Name des Geräts in Home Assistant.",
+            "enabled": "Deaktivierte Zähler werden nicht abgefragt.",
+            "scan_interval_instant": "Spannung, Strom, Leistung … Leer = Intervall des Gateways.",
+            "scan_interval_energy": "Energiezähler. Leer = Intervall des Gateways."
+          }
+        }
+      },
+      "error": {
+        "cannot_connect": "Keine Verbindung zum Gateway.",
+        "meter_not_responding": "Der Zähler antwortet nicht. Slave-ID, Modell und Verkabelung prüfen oder die Verbindungsprüfung abschalten.",
+        "slave_id_in_use": "Diese Slave-ID ist an diesem Gateway bereits eingerichtet."
+      },
+      "abort": {
+        "reconfigure_successful": "Zähler geändert.",
+        "already_configured": "Diese Slave-ID ist an diesem Gateway bereits eingerichtet."
+      }
+    }
+  },
+  "selector": {
+    "model": {
+      "options": {
+        "auto_drt428m": "DRT428M (-2 / -3 automatisch erkennen)",
+        "drt428m_2": "B+G E-Tech DRT428M-2",
+        "drt428m_3": "B+G E-Tech DRT428M-3"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "voltage_phase": {
+        "name": "Spannung {phase}"
+      },
+      "frequency": {
+        "name": "Frequenz"
+      },
+      "current_phase": {
+        "name": "Strom {phase}"
+      },
+      "active_power_total": {
+        "name": "Wirkleistung"
+      },
+      "active_power_phase": {
+        "name": "Wirkleistung {phase}"
+      },
+      "reactive_power_total": {
+        "name": "Blindleistung"
+      },
+      "reactive_power_phase": {
+        "name": "Blindleistung {phase}"
+      },
+      "apparent_power_total": {
+        "name": "Scheinleistung"
+      },
+      "apparent_power_phase": {
+        "name": "Scheinleistung {phase}"
+      },
+      "power_factor_total": {
+        "name": "Leistungsfaktor"
+      },
+      "power_factor_phase": {
+        "name": "Leistungsfaktor {phase}"
+      },
+      "total_active_energy_sum": {
+        "name": "Wirkenergie gesamt"
+      },
+      "total_active_energy_phase": {
+        "name": "Wirkenergie gesamt {phase}"
+      },
+      "tariff_total_active_energy": {
+        "name": "Wirkenergie gesamt {tariff}"
+      },
+      "import_active_energy_sum": {
+        "name": "Wirkenergie Bezug"
+      },
+      "import_active_energy_phase": {
+        "name": "Wirkenergie Bezug {phase}"
+      },
+      "tariff_import_active_energy": {
+        "name": "Wirkenergie Bezug {tariff}"
+      },
+      "export_active_energy_sum": {
+        "name": "Wirkenergie Einspeisung"
+      },
+      "export_active_energy_phase": {
+        "name": "Wirkenergie Einspeisung {phase}"
+      },
+      "tariff_export_active_energy": {
+        "name": "Wirkenergie Einspeisung {tariff}"
+      },
+      "total_reactive_energy_sum": {
+        "name": "Blindenergie gesamt"
+      },
+      "total_reactive_energy_phase": {
+        "name": "Blindenergie gesamt {phase}"
+      },
+      "tariff_total_reactive_energy": {
+        "name": "Blindenergie gesamt {tariff}"
+      },
+      "import_reactive_energy_sum": {
+        "name": "Blindenergie Bezug"
+      },
+      "import_reactive_energy_phase": {
+        "name": "Blindenergie Bezug {phase}"
+      },
+      "tariff_import_reactive_energy": {
+        "name": "Blindenergie Bezug {tariff}"
+      },
+      "export_reactive_energy_sum": {
+        "name": "Blindenergie Einspeisung"
+      },
+      "export_reactive_energy_phase": {
+        "name": "Blindenergie Einspeisung {phase}"
+      },
+      "tariff_export_reactive_energy": {
+        "name": "Blindenergie Einspeisung {tariff}"
+      },
+      "last_success": {
+        "name": "Letzter erfolgreicher Lesevorgang"
+      },
+      "last_error": {
+        "name": "Letzter Fehler"
+      },
+      "error_count": {
+        "name": "Fehlerzähler"
+      },
+      "cycle_duration": {
+        "name": "Dauer Abfragezyklus"
+      },
+      "average_cycle_duration": {
+        "name": "Durchschnittliche Dauer Abfragezyklus"
+      },
+      "requests_per_cycle": {
+        "name": "Anfragen pro Zyklus"
+      },
+      "average_response_time": {
+        "name": "Durchschnittliche Antwortzeit"
+      },
+      "reconnects": {
+        "name": "Wiederverbindungen"
+      },
+      "meters_online": {
+        "name": "Erreichbare Zähler"
+      }
+    },
+    "select": {
+      "combined_code": {
+        "name": "Modus Gesamtenergie",
+        "state": {
+          "forward": "Nur Bezug",
+          "forward_plus_reverse": "Bezug + Einspeisung",
+          "forward_minus_reverse": "Bezug − Einspeisung"
+        }
+      }
+    },
+    "binary_sensor": {
+      "gateway_connected": {
+        "name": "Gateway-Verbindung"
+      },
+      "meter_connected": {
+        "name": "Zählerverbindung"
+      }
+    }
+  },
+  "exceptions": {
+    "invalid_setting": {
+      "message": "Ungültiger Wert {option} für {setting}."
+    },
+    "write_failed": {
+      "message": "Schreiben auf Zähler {name} fehlgeschlagen: {error}"
+    },
+    "write_not_applied": {
+      "message": "Zähler {name} hat den neuen Wert nicht übernommen."
+    }
+  }
+}

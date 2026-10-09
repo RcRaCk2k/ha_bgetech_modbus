@@ -1,0 +1,13 @@
+{
+  "domain": "bgetech_modbus",
+  "name": "BGETech Modbus",
+  "codeowners": ["@RcRaCk2k"],
+  "config_flow": true,
+  "documentation": "https://github.com/RcRaCk2k/ha_bgtech_modbus",
+  "integration_type": "hub",
+  "iot_class": "local_polling",
+  "issue_tracker": "https://github.com/RcRaCk2k/ha_bgtech_modbus/issues",
+  "loggers": ["custom_components.bgetech_modbus"],
+  "requirements": [],
+  "version": "0.1.0"
+}

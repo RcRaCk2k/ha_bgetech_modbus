@@ -1,0 +1,13 @@
+# Lokale Projektnotizen und Referenzen (enthalten Zugangsdaten)
+.claude/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/

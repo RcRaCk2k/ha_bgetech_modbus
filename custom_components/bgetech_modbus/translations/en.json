@@ -1,0 +1,278 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Modbus TCP gateway",
+        "description": "Connection to the RS485/Modbus TCP gateway. Meters are added afterwards.",
+        "data": {
+          "name": "Name",
+          "host": "Host",
+          "port": "Port",
+          "scan_interval": "Polling interval",
+          "timeout": "Timeout",
+          "retries": "Retries",
+          "max_registers": "Maximum registers per request"
+        },
+        "data_description": {
+          "host": "IP address or host name of the Modbus TCP gateway.",
+          "port": "Modbus TCP port, usually 502.",
+          "scan_interval": "Default polling interval for all meters of this gateway (seconds). Meters can override it.",
+          "timeout": "Time to wait for an answer of a meter.",
+          "retries": "Repetitions after a timeout or connection error.",
+          "max_registers": "0 = automatic (125, protocol maximum). Lower it only if the gateway rejects large requests."
+        }
+      },
+      "reconfigure": {
+        "title": "Change gateway",
+        "data": {
+          "name": "Name",
+          "host": "Host",
+          "port": "Port"
+        },
+        "data_description": {
+          "host": "IP address or host name of the Modbus TCP gateway.",
+          "port": "Modbus TCP port, usually 502."
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Cannot connect to the gateway."
+    },
+    "abort": {
+      "already_configured": "This gateway is already configured.",
+      "reconfigure_successful": "Gateway updated."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Polling and communication",
+        "data": {
+          "scan_interval": "Polling interval",
+          "timeout": "Timeout",
+          "retries": "Retries",
+          "max_registers": "Maximum registers per request"
+        },
+        "data_description": {
+          "scan_interval": "Default polling interval for all meters of this gateway (seconds). Meters can override it.",
+          "timeout": "Time to wait for an answer of a meter.",
+          "retries": "Repetitions after a timeout or connection error.",
+          "max_registers": "0 = automatic (125, protocol maximum). Lower it only if the gateway rejects large requests."
+        }
+      }
+    }
+  },
+  "config_subentries": {
+    "meter": {
+      "entry_type": "Meter",
+      "initiate_flow": {
+        "user": "Add meter"
+      },
+      "step": {
+        "user": {
+          "title": "Add meter",
+          "data": {
+            "slave_id": "Slave ID",
+            "name": "Name",
+            "model": "Model",
+            "enabled": "Enabled",
+            "verify": "Check connection",
+            "scan_interval_instant": "Polling interval for instantaneous values",
+            "scan_interval_energy": "Polling interval for energy counters"
+          },
+          "data_description": {
+            "slave_id": "Modbus address of the meter (1-247).",
+            "name": "Name of the device in Home Assistant.",
+            "model": "Automatic detection distinguishes DRT428M-2 and DRT428M-3.",
+            "enabled": "Disabled meters are not polled.",
+            "verify": "Read the meter once before saving.",
+            "scan_interval_instant": "Voltage, current, power... Empty = gateway interval.",
+            "scan_interval_energy": "Energy counters. Empty = gateway interval."
+          }
+        },
+        "reconfigure": {
+          "title": "Edit meter",
+          "description": "Slave ID {slave_id}. To change the slave ID, remove the meter and add it again.",
+          "data": {
+            "name": "Name",
+            "model": "Model",
+            "enabled": "Enabled",
+            "scan_interval_instant": "Polling interval for instantaneous values",
+            "scan_interval_energy": "Polling interval for energy counters"
+          },
+          "data_description": {
+            "name": "Name of the device in Home Assistant.",
+            "enabled": "Disabled meters are not polled.",
+            "scan_interval_instant": "Voltage, current, power... Empty = gateway interval.",
+            "scan_interval_energy": "Energy counters. Empty = gateway interval."
+          }
+        }
+      },
+      "error": {
+        "cannot_connect": "Cannot connect to the gateway.",
+        "meter_not_responding": "The meter does not answer. Check slave ID, model and wiring, or disable the connection check.",
+        "slave_id_in_use": "This slave ID is already configured on this gateway."
+      },
+      "abort": {
+        "reconfigure_successful": "Meter updated.",
+        "already_configured": "This slave ID is already configured on this gateway."
+      }
+    }
+  },
+  "selector": {
+    "model": {
+      "options": {
+        "auto_drt428m": "DRT428M (detect -2 / -3 automatically)",
+        "drt428m_2": "B+G E-Tech DRT428M-2",
+        "drt428m_3": "B+G E-Tech DRT428M-3"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "voltage_phase": {
+        "name": "Voltage {phase}"
+      },
+      "frequency": {
+        "name": "Frequency"
+      },
+      "current_phase": {
+        "name": "Current {phase}"
+      },
+      "active_power_total": {
+        "name": "Active power"
+      },
+      "active_power_phase": {
+        "name": "Active power {phase}"
+      },
+      "reactive_power_total": {
+        "name": "Reactive power"
+      },
+      "reactive_power_phase": {
+        "name": "Reactive power {phase}"
+      },
+      "apparent_power_total": {
+        "name": "Apparent power"
+      },
+      "apparent_power_phase": {
+        "name": "Apparent power {phase}"
+      },
+      "power_factor_total": {
+        "name": "Power factor"
+      },
+      "power_factor_phase": {
+        "name": "Power factor {phase}"
+      },
+      "total_active_energy_sum": {
+        "name": "Active energy total"
+      },
+      "total_active_energy_phase": {
+        "name": "Active energy total {phase}"
+      },
+      "tariff_total_active_energy": {
+        "name": "Active energy total {tariff}"
+      },
+      "import_active_energy_sum": {
+        "name": "Active energy import"
+      },
+      "import_active_energy_phase": {
+        "name": "Active energy import {phase}"
+      },
+      "tariff_import_active_energy": {
+        "name": "Active energy import {tariff}"
+      },
+      "export_active_energy_sum": {
+        "name": "Active energy export"
+      },
+      "export_active_energy_phase": {
+        "name": "Active energy export {phase}"
+      },
+      "tariff_export_active_energy": {
+        "name": "Active energy export {tariff}"
+      },
+      "total_reactive_energy_sum": {
+        "name": "Reactive energy total"
+      },
+      "total_reactive_energy_phase": {
+        "name": "Reactive energy total {phase}"
+      },
+      "tariff_total_reactive_energy": {
+        "name": "Reactive energy total {tariff}"
+      },
+      "import_reactive_energy_sum": {
+        "name": "Reactive energy import"
+      },
+      "import_reactive_energy_phase": {
+        "name": "Reactive energy import {phase}"
+      },
+      "tariff_import_reactive_energy": {
+        "name": "Reactive energy import {tariff}"
+      },
+      "export_reactive_energy_sum": {
+        "name": "Reactive energy export"
+      },
+      "export_reactive_energy_phase": {
+        "name": "Reactive energy export {phase}"
+      },
+      "tariff_export_reactive_energy": {
+        "name": "Reactive energy export {tariff}"
+      },
+      "last_success": {
+        "name": "Last successful read"
+      },
+      "last_error": {
+        "name": "Last error"
+      },
+      "error_count": {
+        "name": "Error count"
+      },
+      "cycle_duration": {
+        "name": "Polling cycle duration"
+      },
+      "average_cycle_duration": {
+        "name": "Average polling cycle duration"
+      },
+      "requests_per_cycle": {
+        "name": "Requests per cycle"
+      },
+      "average_response_time": {
+        "name": "Average response time"
+      },
+      "reconnects": {
+        "name": "Reconnects"
+      },
+      "meters_online": {
+        "name": "Meters online"
+      }
+    },
+    "select": {
+      "combined_code": {
+        "name": "Energy total mode",
+        "state": {
+          "forward": "Import only",
+          "forward_plus_reverse": "Import + export",
+          "forward_minus_reverse": "Import − export"
+        }
+      }
+    },
+    "binary_sensor": {
+      "gateway_connected": {
+        "name": "Gateway connection"
+      },
+      "meter_connected": {
+        "name": "Meter connection"
+      }
+    }
+  },
+  "exceptions": {
+    "invalid_setting": {
+      "message": "Invalid value {option} for {setting}."
+    },
+    "write_failed": {
+      "message": "Writing to meter {name} failed: {error}"
+    },
+    "write_not_applied": {
+      "message": "Meter {name} did not apply the new value."
+    }
+  }
+}
