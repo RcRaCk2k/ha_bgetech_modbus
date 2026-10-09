@@ -71,7 +71,7 @@ Zyklusdauer, durchschnittliche Antwortzeit und Wiederverbindungen.
 ### Über HACS
 
 1. HACS → ⋮ → *Benutzerdefinierte Repositories* →
-   `https://github.com/RcRaCk2k/ha_bgtech_modbus`, Typ *Integration*
+   `https://github.com/RcRaCk2k/ha_bgetech_modbus`, Typ *Integration*
 2. **BGETech Modbus** installieren und Home Assistant neu starten
 
 ### Manuell

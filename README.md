@@ -65,7 +65,7 @@ duration, average response time, reconnects.
 
 ### HACS
 
-1. HACS → ⋮ → *Custom repositories* → `https://github.com/RcRaCk2k/ha_bgtech_modbus`, type *Integration*
+1. HACS → ⋮ → *Custom repositories* → `https://github.com/RcRaCk2k/ha_bgetech_modbus`, type *Integration*
 2. Install **BGETech Modbus** and restart Home Assistant
 
 ### Manual
